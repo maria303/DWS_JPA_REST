@@ -6,53 +6,62 @@
 package com.fpmislata.domain;
 
 import java.io.Serializable;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author alumno
  */
-
 @Entity
-@Table(name="categorias")
+@Table(name = "lineas_pedido")
 @NamedQueries({
-    @NamedQuery(name="categoria.findAll", query="SELECT c FROM Categoria c ORDER BY c.id")})
+    @NamedQuery(name="lineas_pedido.findAll", query="SELECT l FROM Linea_Pedido l ORDER BY l.id")})
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Categoria implements Serializable{
+public class Linea_Pedido implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
     @Id
-    @Column(name="id_categoria")
+    @Column(name="id_lineas_pedido")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    @Column(nullable=false, length=50)
-    private String nombre;
+    @ManyToOne
+    @JoinColumn(name = "pedido")
+    @XmlTransient
+    private Pedido pedido;
     
-    @OneToMany(mappedBy = "categoria", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Set<Producto> productos;
+    @Column(nullable=false, length=50)
+    private String producto;
+    
+    @Column(nullable=false)
+    private int cantidad;
+    
+    @Column(nullable=false)
+    private Float precio;
 
-    public Categoria() {
+    public Linea_Pedido() {
     }
 
-    public Categoria(String nombre) {
-        this.nombre = nombre;
+    public Linea_Pedido(Pedido pedido, String producto, int cantidad, Float precio) {
+        this.pedido = pedido;
+        this.producto = producto;
+        this.cantidad = cantidad;
+        this.precio = precio;
     }
 
     public int getId() {
@@ -63,26 +72,42 @@ public class Categoria implements Serializable{
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
 
-    public Set<Producto> getProductos() {
-        return productos;
+    public String getProducto() {
+        return producto;
     }
 
-    public void setProductos(Set<Producto> productos) {
-        this.productos = productos;
+    public void setProducto(String producto) {
+        this.producto = producto;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Float precio) {
+        this.precio = precio;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + this.id;
+        int hash = 7;
+        hash = 29 * hash + this.id;
         return hash;
     }
 
@@ -97,7 +122,7 @@ public class Categoria implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Categoria other = (Categoria) obj;
+        final Linea_Pedido other = (Linea_Pedido) obj;
         if (this.id != other.id) {
             return false;
         }
@@ -106,10 +131,6 @@ public class Categoria implements Serializable{
 
     @Override
     public String toString() {
-        return "Categoria{" + "id=" + id + ", nombre=" + nombre + '}';
+        return "Linea_Pedido{" + "id=" + id + ", pedido=" + pedido + ", producto=" + producto + ", cantidad=" + cantidad + ", precio=" + precio + '}';
     }
-
-    
-    
-    
 }

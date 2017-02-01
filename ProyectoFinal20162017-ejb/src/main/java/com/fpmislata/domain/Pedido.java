@@ -6,6 +6,7 @@
 package com.fpmislata.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,33 +27,38 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author alumno
  */
-
 @Entity
-@Table(name="categorias")
+@Table(name = "pedidos")
 @NamedQueries({
-    @NamedQuery(name="categoria.findAll", query="SELECT c FROM Categoria c ORDER BY c.id")})
+    @NamedQuery(name="pedido.findAll", query="SELECT p FROM Pedido p ORDER BY p.id")})
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Categoria implements Serializable{
+public class Pedido implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
     @Id
-    @Column(name="id_categoria")
+    @Column(name="id_pedidos")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @Column(nullable=false, length=50)
-    private String nombre;
+    private String descripcion;
     
-    @OneToMany(mappedBy = "categoria", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Set<Producto> productos;
+    @Column(nullable = false)
+    private int estado;
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "pedido")
+    private Set<Linea_Pedido> lineas;
 
-    public Categoria() {
+    public Pedido() {
+        lineas = new HashSet<>();
     }
 
-    public Categoria(String nombre) {
-        this.nombre = nombre;
+    public Pedido(String descripcion, int estado) {
+        this.descripcion = descripcion;
+        this.estado = estado;
+        lineas = new HashSet<>();
     }
 
     public int getId() {
@@ -63,20 +69,28 @@ public class Categoria implements Serializable{
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public Set<Producto> getProductos() {
-        return productos;
+    public int getEstado() {
+        return estado;
     }
 
-    public void setProductos(Set<Producto> productos) {
-        this.productos = productos;
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public Set<Linea_Pedido> getLineas() {
+        return lineas;
+    }
+
+    public void setLineas(Set<Linea_Pedido> lineas) {
+        this.lineas = lineas;
     }
 
     @Override
@@ -97,7 +111,7 @@ public class Categoria implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Categoria other = (Categoria) obj;
+        final Pedido other = (Pedido) obj;
         if (this.id != other.id) {
             return false;
         }
@@ -106,10 +120,6 @@ public class Categoria implements Serializable{
 
     @Override
     public String toString() {
-        return "Categoria{" + "id=" + id + ", nombre=" + nombre + '}';
+        return "Pedido{" + "id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", lineas=" + lineas + '}';
     }
-
-    
-    
-    
 }
