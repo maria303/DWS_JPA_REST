@@ -62,7 +62,7 @@ public class CategoriaController extends HttpServlet {
         }
     }
 
-    private void listarCategorias(HttpServletRequest request, HttpServletResponse response) {
+    private void listarCategorias(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List lista = categoriaService.listCategorias();
             ArrayList<Categoria> listCat = new ArrayList<>(lista);
@@ -74,8 +74,19 @@ public class CategoriaController extends HttpServlet {
         }
     }
 
-    private void altaCategoria(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void altaCategoria(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String nombre = request.getParameter("nombre");
+
+        Categoria categoria = new Categoria();
+        categoria.setNombre(nombre);
+
+        try {
+            categoriaService.addCategoria(categoria);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        listarCategorias(request, response);
     }
 
     private void eliminarCategoria(HttpServletRequest request, HttpServletResponse response) {
