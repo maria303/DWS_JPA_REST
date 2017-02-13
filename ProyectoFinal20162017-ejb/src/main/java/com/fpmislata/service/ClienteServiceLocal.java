@@ -20,4 +20,8 @@ public interface ClienteServiceLocal {
 
     Cliente findClienteById(Cliente cliente);
     
+    void addCliente(Cliente cliente);
+
+    void deleteCliente(Cliente cliente);
+    
 }
