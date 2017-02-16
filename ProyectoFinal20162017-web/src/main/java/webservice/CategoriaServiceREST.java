@@ -41,7 +41,7 @@ public class CategoriaServiceREST {
     @GET
     @Produces("application/json;charset=UTF-8")
     @Path("/Categorias")
-    public List listarCategorias() {
+    public List<Categoria> listarCategorias() {
         return categoriaService.listCategorias();
     }
     

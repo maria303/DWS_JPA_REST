@@ -46,7 +46,6 @@ public class Categoria implements Serializable{
     @Column(nullable=false, length=50)
     private String nombre;
     
-    @XmlTransient
     @OneToMany(mappedBy = "categoria", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Set<Producto> productos;
 
