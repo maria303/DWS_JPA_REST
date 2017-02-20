@@ -39,7 +39,7 @@ public class ProductoServiceRest {
 
     @GET
     @Produces({"application/json;charset=UTF-8"})
-    @Path("Productos")
+    @Path("/Productos")
      public List<Producto> listarProductos() {
         return productoService.listProductos();
     }
