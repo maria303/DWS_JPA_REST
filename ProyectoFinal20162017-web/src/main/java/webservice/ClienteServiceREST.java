@@ -35,15 +35,15 @@ public class ClienteServiceREST {
     private ClienteServiceLocal clienteService;
 
     @GET
-    @Produces({"application/xml","application/json"})
+    @Produces({"application/json"})
     @Path("/Clientes")
     public List listarClientes() {
         return clienteService.ListClientes();
     }
 
     @GET
-    @Produces({"application/xml","application/json"})
-    @Consumes({"application/xml","application/json"})
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
     @Path("/Cliente/findById/{id}")
     public Cliente findClienteById(@PathParam("id") int id) {
         Cliente c = new Cliente();
@@ -53,8 +53,8 @@ public class ClienteServiceREST {
     }
     
     @POST
-    @Produces({"application/xml","application/json"})
-    @Consumes({"application/xml","application/json"})
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
     @Path("/Cliente/add")
     public Response addCliente(Cliente cliente){
         try{
@@ -67,8 +67,8 @@ public class ClienteServiceREST {
     }
     
     @PUT
-    @Produces({"application/xml","application/json"})
-    @Consumes({"application/xml","application/json"})
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
     @Path("/Cliente/update/{id}")
     public Response updateCliente(@PathParam("id") int id, Cliente clienteModificado){
         try{
@@ -94,8 +94,8 @@ public class ClienteServiceREST {
     }
     
     @DELETE
-    @Produces({"application/xml","application/json"})
-    @Consumes({"application/xml","application/json"})
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
     @Path("/Cliente/delete/{id}")
     public Response deleteClienteById(@PathParam("id") int id){
         try{
